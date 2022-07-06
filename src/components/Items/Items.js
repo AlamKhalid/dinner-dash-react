@@ -2,28 +2,25 @@ import React, { useState, useEffect } from "react";
 import FilterCategory from "../FilterCategory/FilterCategory";
 import Item from "./Item";
 import http from "../../axios";
-
-const restaurant_id = 10;
+import { RESTAURANT_ID } from "../../constants";
 
 const Items = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [loadedOnce, setLoadedOnce] = useState(false);
   const [restaurant, setRestaurant] = useState({});
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     const fetchRestaurant = async () => {
-      const { data } = await http.get(`restaurants/${restaurant_id}`);
+      const { data } = await http.get(`restaurants/${RESTAURANT_ID}`);
       setRestaurant(data.restaurant);
       setItems(data.items);
-      setLoadedOnce(true);
     };
     fetchRestaurant();
   }, []);
 
   const fetchItemsWithCategory = async () => {
     const { data } = await http.put(
-      `restaurants/${restaurant_id}/category_filter`,
+      `restaurants/${RESTAURANT_ID}/category_filter`,
       { category_name: selectedCategory }
     );
     setItems(data);

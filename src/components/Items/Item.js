@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import http from "../../axios";
 import stockImg from "../../assets/images/stock_img.jpeg";
+import { RESTAURANT_ID } from "../../constants";
 
 const Item = ({ item }) => {
   const [quantity, setQuantity] = useState(1);
@@ -10,6 +12,19 @@ const Item = ({ item }) => {
 
   const decrementQuantity = () => {
     if (quantity > 1) setQuantity((prevQuantity) => prevQuantity - 1);
+  };
+
+  const handleAddCart = async () => {
+    try {
+      const { data } = await http.post("/carts", {
+        restaurant_id: RESTAURANT_ID,
+        quantity,
+        item_id: item.id,
+      });
+      console.log(data);
+    } catch (ex) {
+      console.log(ex);
+    }
   };
 
   const { name, description, price, item_picture_url, retired } = item;
@@ -53,7 +68,9 @@ const Item = ({ item }) => {
                 <strong>Item is retired. Cannot be added to cart</strong>
               </p>
             ) : (
-              <button className="btn btn-dark">Add to cart</button>
+              <button className="btn btn-dark" onClick={handleAddCart}>
+                Add to cart
+              </button>
             )}
           </li>
         </ul>
