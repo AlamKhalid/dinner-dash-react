@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/Navbar/Navbar";
 import Items from "./components/Items/Items";
@@ -17,6 +17,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Items />} />
         <Route exact path="/cart" element={<Cart />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </CartProvider>
   );
