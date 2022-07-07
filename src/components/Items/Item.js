@@ -7,6 +7,7 @@ import { createCart } from "../../services/cartService";
 import { RESTAURANT_ID, USER_ID } from "../../constants";
 
 const Item = ({ item }) => {
+  const [addingToCart, setAddingToCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const { setCartItemCount } = useContext(CartContext);
 
@@ -19,18 +20,23 @@ const Item = ({ item }) => {
   };
 
   const handleAddCart = async () => {
-    withTryCatch(async () => {
-      const { data } = await createCart({
-        restaurant_id: RESTAURANT_ID,
-        quantity,
-        item_id: item.id,
-        user_id: USER_ID,
-      });
-      if (data.success) {
-        setCartItemCount(data.item_count);
-        toast.info("Item added to cart successfully");
-      }
-    });
+    withTryCatch(
+      async () => {
+        setAddingToCart(true);
+        const { data } = await createCart({
+          restaurant_id: RESTAURANT_ID,
+          quantity,
+          item_id: item.id,
+          user_id: USER_ID,
+        });
+        if (data.success) {
+          setCartItemCount(data.item_count);
+          toast.info("Item added to cart successfully");
+        }
+      },
+      null,
+      () => setAddingToCart(false)
+    );
   };
 
   const { name, description, price, item_picture_url, retired } = item;
@@ -75,7 +81,17 @@ const Item = ({ item }) => {
               </p>
             ) : (
               <button className="btn btn-dark" onClick={handleAddCart}>
-                Add to cart
+                {addingToCart ? (
+                  <div className="d-flex align-items-center">
+                    <div
+                      className="spinner-border spinner-border-sm text-light mr-3"
+                      role="status"
+                    ></div>
+                    <span>Adding...</span>
+                  </div>
+                ) : (
+                  "Add to cart"
+                )}
               </button>
             )}
           </li>

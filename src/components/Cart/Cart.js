@@ -17,6 +17,7 @@ const Cart = () => {
   useEffect(() => {
     withTryCatch(
       async () => {
+        setLoading(true);
         const { data } = await getCart();
         setCart(data);
       },
@@ -34,14 +35,19 @@ const Cart = () => {
   };
 
   const handleClearCart = async () => {
-    withTryCatch(async () => {
-      const response = await deleteCart(cart.id);
-      if (response.status === 204) {
-        setCartItemCount(0);
-        setCart(null);
-      }
-      toast.info("Cart has been cleared successfully");
-    });
+    withTryCatch(
+      async () => {
+        setLoading(true);
+        const response = await deleteCart(cart.id);
+        if (response.status === 204) {
+          setCartItemCount(0);
+          setCart(null);
+        }
+        toast.info("Cart has been cleared successfully");
+      },
+      null,
+      () => setLoading(false)
+    );
   };
 
   return loading ? (

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
@@ -11,32 +11,43 @@ import { USER_ID } from "../../constants";
 import "./CartItem.css";
 
 const CartItem = ({ cart_order_item, item, idx, setCart }) => {
+  const [changingCartItem, setChangingCartItem] = useState(false);
   const { cartItemCount, setCartItemCount } = useContext(CartConsumer);
 
   const incrementQuantity = async () => {
-    withTryCatch(async () => {
-      const { data } = await editCartItem({
-        id: cart_order_item.id,
-        user_id: USER_ID,
-        quantity: cart_order_item.quantity + 1,
-        button: "add",
-      });
-      setCart(data);
-    });
+    withTryCatch(
+      async () => {
+        setChangingCartItem(true);
+        const { data } = await editCartItem({
+          id: cart_order_item.id,
+          user_id: USER_ID,
+          quantity: cart_order_item.quantity + 1,
+          button: "add",
+        });
+        setCart(data);
+      },
+      null,
+      () => setChangingCartItem(false)
+    );
   };
 
   const decrementQuantity = async () => {
     if (cart_order_item.quantity === 1) return;
 
-    withTryCatch(async () => {
-      const { data } = await editCartItem({
-        id: cart_order_item.id,
-        user_id: USER_ID,
-        quantity: cart_order_item.quantity - 1,
-        button: "remove",
-      });
-      setCart(data);
-    });
+    withTryCatch(
+      async () => {
+        setChangingCartItem(true);
+        const { data } = await editCartItem({
+          id: cart_order_item.id,
+          user_id: USER_ID,
+          quantity: cart_order_item.quantity - 1,
+          button: "remove",
+        });
+        setCart(data);
+      },
+      null,
+      () => setChangingCartItem(false)
+    );
   };
 
   const handleClearCartItemConfirm = () => {
@@ -48,23 +59,34 @@ const CartItem = ({ cart_order_item, item, idx, setCart }) => {
   };
 
   const handleClearCartItem = async () => {
-    withTryCatch(async () => {
-      const response = await deleteCartItem({
-        data: {
-          id: cart_order_item.id,
-          user_id: USER_ID,
-        },
-      });
-      if (response.status === 204) {
-        setCartItemCount(cartItemCount - 1);
-        toast.info("Item has been removed successfully");
-        if (cartItemCount === 1)
-          toast.info("Cart has been cleared successfully");
-      }
-    });
+    withTryCatch(
+      async () => {
+        setChangingCartItem(true);
+        const response = await deleteCartItem({
+          data: {
+            id: cart_order_item.id,
+            user_id: USER_ID,
+          },
+        });
+        if (response.status === 204) {
+          setCartItemCount(cartItemCount - 1);
+          toast.info("Item has been removed successfully");
+          if (cartItemCount === 1)
+            toast.info("Cart has been cleared successfully");
+        }
+      },
+      null,
+      () => setChangingCartItem(false)
+    );
   };
 
-  return (
+  return changingCartItem ? (
+    <tr>
+      <td colSpan={6} className="text-center">
+        <div className="spinner-border spinner-border-sm" role="status"></div>
+      </td>
+    </tr>
+  ) : (
     <tr key={cart_order_item.id}>
       <th scope="row">{idx + 1}</th>
       <td>{item.name}</td>
