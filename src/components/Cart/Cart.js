@@ -6,17 +6,23 @@ import withTryCatch from "../helpers/withTryCatch";
 import handleConfirm from "../helpers/handleConfirm";
 import CartConsumer from "../../context/cartContext";
 import { deleteCart, getCart } from "../../services/cartService";
+import Loader from "../Loader/Loader";
 
 const Cart = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState(null);
   const { cartItemCount, setCartItemCount } = useContext(CartConsumer);
 
   useEffect(() => {
-    withTryCatch(async () => {
-      const { data } = await getCart();
-      setCart(data);
-    });
+    withTryCatch(
+      async () => {
+        const { data } = await getCart();
+        setCart(data);
+      },
+      null,
+      () => setLoading(false)
+    );
   }, [cartItemCount]);
 
   const handleClearCartConfirm = () => {
@@ -38,7 +44,9 @@ const Cart = () => {
     });
   };
 
-  return (
+  return loading ? (
+    <Loader loading={loading} />
+  ) : (
     <div className="container">
       <h1 className="text-center mb-3">Cart</h1>
       {cart ? (
