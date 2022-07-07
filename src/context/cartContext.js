@@ -5,7 +5,7 @@ const CartContext = createContext();
 
 // Provider will be exported wrapped in CartProvider component.
 const CartProvider = (props) => {
-  const [cartItemCount, setCartItemCount] = useState(1);
+  const [cartItemCount, setCartItemCount] = useState(0);
 
   return (
     <CartContext.Provider

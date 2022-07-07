@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import http from "../../axios";
+import React, { useState, useContext } from "react";
+import { toast } from "react-toastify";
 import stockImg from "../../assets/images/stock_img.jpeg";
-import { RESTAURANT_ID } from "../../constants";
+import withTryCatch from "../helpers/withTryCatch";
+import CartContext from "../../context/cartContext";
+import { createCart } from "../../services/cartService";
+import { RESTAURANT_ID, USER_ID } from "../../constants";
 
 const Item = ({ item }) => {
   const [quantity, setQuantity] = useState(1);
+  const { setCartItemCount } = useContext(CartContext);
 
   const incrementQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -15,16 +19,18 @@ const Item = ({ item }) => {
   };
 
   const handleAddCart = async () => {
-    try {
-      const { data } = await http.post("/carts", {
+    withTryCatch(async () => {
+      const { data } = await createCart({
         restaurant_id: RESTAURANT_ID,
         quantity,
         item_id: item.id,
+        user_id: USER_ID,
       });
-      console.log(data);
-    } catch (ex) {
-      console.log(ex);
-    }
+      if (data.success) {
+        setCartItemCount(data.item_count);
+        toast.info("Item added to cart successfully");
+      }
+    });
   };
 
   const { name, description, price, item_picture_url, retired } = item;

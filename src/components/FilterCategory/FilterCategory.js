@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import http from "../../axios";
+import { getCategories } from "../../services/categoryService";
+import withTryCatch from "../helpers/withTryCatch";
 
 const FilterCategory = ({
   selectedCategory,
@@ -9,11 +10,10 @@ const FilterCategory = ({
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const { data } = await http.get("/categories");
+    withTryCatch(async () => {
+      const { data } = await getCategories();
       setCategories(["all", "popular", ...data]);
-    };
-    fetchCategories();
+    });
   }, []);
 
   const capitalize = (string) => {

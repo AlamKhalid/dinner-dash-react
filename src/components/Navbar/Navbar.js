@@ -14,6 +14,9 @@ const Navbar = () => {
         Dinner Dash
       </Link>
       <div className="d-flex align-items-center">
+        <Link to="/">
+          <button className="btn btn-outline-light mr-3">Home</button>
+        </Link>
         <button className="btn btn-outline-light mr-3"> Sign Up</button>
         <button className="btn btn-outline-light mr-3"> Sign In</button>
         <Link to="/cart">
