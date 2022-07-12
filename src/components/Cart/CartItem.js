@@ -68,7 +68,7 @@ const CartItem = ({ cart_order_item, item, idx, setCart }) => {
             user_id: USER_ID,
           },
         });
-        if (response.status === 204) {
+        if (response.status === 200) {
           setCartItemCount(cartItemCount - 1);
           toast.info("Item has been removed successfully");
           if (cartItemCount === 1)

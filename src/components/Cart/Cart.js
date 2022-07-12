@@ -39,7 +39,7 @@ const Cart = () => {
       async () => {
         setLoading(true);
         const response = await deleteCart(cart.id);
-        if (response.status === 204) {
+        if (response.status === 200) {
           setCartItemCount(0);
           setCart(null);
         }

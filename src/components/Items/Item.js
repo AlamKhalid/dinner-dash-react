@@ -80,7 +80,11 @@ const Item = ({ item }) => {
                 <strong>Item is retired. Cannot be added to cart</strong>
               </p>
             ) : (
-              <button className="btn btn-dark" onClick={handleAddCart}>
+              <button
+                className="btn btn-dark"
+                onClick={handleAddCart}
+                disabled={addingToCart}
+              >
                 {addingToCart ? (
                   <div className="d-flex align-items-center">
                     <div
