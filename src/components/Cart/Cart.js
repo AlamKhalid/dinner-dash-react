@@ -20,7 +20,8 @@ const Cart = () => {
         setLoading(true);
         const { data } = await getCart();
         setCart(data);
-        setCartItemCount(data.items.length);
+        if (data?.cart_order_items)
+          setCartItemCount(data.cart_order_items.length);
       },
       null,
       () => setLoading(false)

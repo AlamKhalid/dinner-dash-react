@@ -6,7 +6,7 @@ const withTryCatch = async (tryCode, catchCode = null, finallyCode = null) => {
   } catch (ex) {
     if (catchCode) catchCode(ex);
     else {
-      if (ex.response.data.error) toast.error(ex.response.data.error);
+      if (ex?.response?.data?.error) toast.error(ex.response.data.error);
       else toast.error(ex.message);
       console.log(ex);
     }

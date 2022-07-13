@@ -1,2 +1,2 @@
-export const RESTAURANT_ID = 1;
-export const USER_ID = 1;
+export const RESTAURANT_ID = 10;
+export const USER_ID = 44;

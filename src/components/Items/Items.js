@@ -21,7 +21,8 @@ const Items = () => {
         const { data: cart } = await getCart();
         setRestaurant(data.restaurant);
         setItems(data.items);
-        setCartItemCount(cart.items.length);
+        if (cart?.cart_order_items)
+          setCartItemCount(cart.cart_order_items.length);
       },
       null,
       () => setLoading(false)
