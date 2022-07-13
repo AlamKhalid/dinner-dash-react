@@ -9,7 +9,7 @@ import { RESTAURANT_ID, USER_ID } from "../../constants";
 const Item = ({ item }) => {
   const [addingToCart, setAddingToCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const { cartItemCount, setCartItemCount } = useContext(CartContext);
+  const { setCartItemCount } = useContext(CartContext);
 
   const incrementQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
