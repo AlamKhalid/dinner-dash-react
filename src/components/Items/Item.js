@@ -9,7 +9,7 @@ import { RESTAURANT_ID, USER_ID } from "../../constants";
 const Item = ({ item }) => {
   const [addingToCart, setAddingToCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const { setCartItemCount } = useContext(CartContext);
+  const { cartItemCount, setCartItemCount } = useContext(CartContext);
 
   const incrementQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -29,9 +29,15 @@ const Item = ({ item }) => {
           item_id: item.id,
           user_id: USER_ID,
         });
-        if (data.success) {
+        if (
+          data.success &&
+          data.item_count > 0 &&
+          data.item_count !== cartItemCount
+        ) {
           setCartItemCount(data.item_count);
           toast.info("Item added to cart successfully");
+        } else {
+          toast.error("An uknown error occured");
         }
       },
       null,

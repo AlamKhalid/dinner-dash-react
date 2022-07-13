@@ -20,11 +20,12 @@ const Cart = () => {
         setLoading(true);
         const { data } = await getCart();
         setCart(data);
+        setCartItemCount(data.items.length);
       },
       null,
       () => setLoading(false)
     );
-  }, [cartItemCount]);
+  }, [cartItemCount, setCartItemCount]);
 
   const handleClearCartConfirm = () => {
     handleConfirm(
@@ -42,8 +43,8 @@ const Cart = () => {
         if (response.status === 200) {
           setCartItemCount(0);
           setCart(null);
+          toast.info("Cart has been cleared successfully");
         }
-        toast.info("Cart has been cleared successfully");
       },
       null,
       () => setLoading(false)
