@@ -29,11 +29,7 @@ const Item = ({ item }) => {
           item_id: item.id,
           user_id: USER_ID,
         });
-        if (
-          data.success &&
-          data.item_count > 0 &&
-          data.item_count !== cartItemCount
-        ) {
+        if (data.success && data.item_count > 0) {
           setCartItemCount(data.item_count);
           toast.info("Item added to cart successfully");
         } else {
