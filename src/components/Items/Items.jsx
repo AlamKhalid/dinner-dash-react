@@ -3,7 +3,7 @@ import FilterCategory from "../FilterCategory/FilterCategory";
 import Item from "./Item";
 import Loader from "../Loader/Loader";
 import withTryCatch from "../helpers/withTryCatch";
-import CartConsumer from "../../context/cartContext";
+import CartContext from "../../context/cartContext";
 import { getRestaurant, filterCategory } from "../../services/itemService";
 import { getCart } from "../../services/cartService";
 
@@ -12,7 +12,7 @@ const Items = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [restaurant, setRestaurant] = useState({});
   const [items, setItems] = useState([]);
-  const { setCartItemCount } = useContext(CartConsumer);
+  const { setCartItemCount } = useContext(CartContext);
 
   useEffect(() => {
     withTryCatch(
@@ -52,7 +52,7 @@ const Items = () => {
           setSelectedCategory={setSelectedCategory}
           fetchItemsWithCategory={fetchItemsWithCategory}
         />
-        {items.length > 0 ? (
+        {items.length ? (
           <div className="row">
             {items.map((item) => (
               <Item key={item.id} item={item} />

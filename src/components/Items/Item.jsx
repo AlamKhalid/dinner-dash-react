@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { toast } from "react-toastify";
+import { createCart } from "../../services/cartService";
+import { RESTAURANT_ID, USER_ID } from "../../constants";
 import stockImg from "../../assets/images/stock_img.jpeg";
 import withTryCatch from "../helpers/withTryCatch";
 import CartContext from "../../context/cartContext";
-import { createCart } from "../../services/cartService";
-import { RESTAURANT_ID, USER_ID } from "../../constants";
 
 const Item = ({ item }) => {
   const [addingToCart, setAddingToCart] = useState(false);
@@ -29,7 +29,7 @@ const Item = ({ item }) => {
           item_id: item.id,
           user_id: USER_ID,
         });
-        if (data.success && data.item_count > 0) {
+        if (data.success && data.item_count) {
           setCartItemCount(data.item_count);
           toast.info("Item added to cart successfully");
         } else {
@@ -45,7 +45,7 @@ const Item = ({ item }) => {
   return (
     <div className="col-md-4 .offset-md-1 mb-4">
       <div className="card">
-        {item_picture_url.length > 0 ? (
+        {item_picture_url.length ? (
           <img src={item_picture_url} height="300" alt="item_picture" />
         ) : (
           <img src={stockImg} height="300" alt="item_picture" />

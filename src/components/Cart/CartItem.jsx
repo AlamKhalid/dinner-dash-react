@@ -2,28 +2,34 @@ import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
-import handleConfirm from "../helpers/handleConfirm";
-import CartConsumer from "../../context/cartContext";
-import withTryCatch from "../helpers/withTryCatch";
 import { editCartItem, deleteCartItem } from "../../services/cartItemService";
 import { USER_ID } from "../../constants";
+import handleConfirm from "../helpers/handleConfirm";
+import CartContext from "../../context/cartContext";
+import withTryCatch from "../helpers/withTryCatch";
 
 import "./CartItem.css";
 
 const CartItem = ({ cart_order_item, item, idx, setCart }) => {
   const [changingCartItem, setChangingCartItem] = useState(false);
-  const { cartItemCount, setCartItemCount } = useContext(CartConsumer);
+  const { cartItemCount, setCartItemCount } = useContext(CartContext);
 
-  const incrementQuantity = async () => {
+  const cartItemParams = (quantity, button) => {
+    return {
+      id: cart_order_item.id,
+      user_id: USER_ID,
+      quantity,
+      button,
+    };
+  };
+
+  const incrementQuantity = () => {
     withTryCatch(
       async () => {
         setChangingCartItem(true);
-        const { data } = await editCartItem({
-          id: cart_order_item.id,
-          user_id: USER_ID,
-          quantity: cart_order_item.quantity + 1,
-          button: "add",
-        });
+        const { data } = await editCartItem(
+          cartItemParams(cart_order_item.quantity + 1, "add")
+        );
         setCart(data);
       },
       null,
@@ -31,18 +37,15 @@ const CartItem = ({ cart_order_item, item, idx, setCart }) => {
     );
   };
 
-  const decrementQuantity = async () => {
+  const decrementQuantity = () => {
     if (cart_order_item.quantity === 1) return;
 
     withTryCatch(
       async () => {
         setChangingCartItem(true);
-        const { data } = await editCartItem({
-          id: cart_order_item.id,
-          user_id: USER_ID,
-          quantity: cart_order_item.quantity - 1,
-          button: "remove",
-        });
+        const { data } = await editCartItem(
+          cartItemParams(cart_order_item.quantity - 1, "remove")
+        );
         setCart(data);
       },
       null,

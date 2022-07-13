@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import CartConsumer from "../../context/cartContext";
+import CartContext from "../../context/cartContext";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { cartItemCount } = useContext(CartConsumer);
+  const { cartItemCount } = useContext(CartContext);
 
   return (
     <nav className="nav-div">

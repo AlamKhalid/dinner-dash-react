@@ -6,10 +6,8 @@ import Items from "./components/Items/Items";
 import Cart from "./components/Cart/Cart";
 import { CartProvider } from "./context/cartContext";
 import "./App.css";
-import "react-toastify/dist/ReactToastify.css";
-import "react-confirm-alert/src/react-confirm-alert.css";
 
-function App() {
+const App = () => {
   return (
     <CartProvider>
       <ToastContainer />
@@ -21,6 +19,6 @@ function App() {
       </Routes>
     </CartProvider>
   );
-}
+};
 
 export default App;

@@ -1,7 +1,7 @@
 import React, { useState, createContext } from "react";
 
 // Provider and Consumer are connected through their "parent" context
-const CartContext = createContext();
+const CartContext = createContext(null);
 
 // Provider will be exported wrapped in CartProvider component.
 const CartProvider = (props) => {

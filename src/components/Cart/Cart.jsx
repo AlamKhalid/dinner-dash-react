@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { deleteCart, getCart } from "../../services/cartService";
 import CartItem from "./CartItem";
 import withTryCatch from "../helpers/withTryCatch";
 import handleConfirm from "../helpers/handleConfirm";
-import CartConsumer from "../../context/cartContext";
-import { deleteCart, getCart } from "../../services/cartService";
+import CartContext from "../../context/cartContext";
 import Loader from "../Loader/Loader";
 
 const Cart = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState(null);
-  const { cartItemCount, setCartItemCount } = useContext(CartConsumer);
+  const { cartItemCount, setCartItemCount } = useContext(CartContext);
 
   useEffect(() => {
     withTryCatch(
