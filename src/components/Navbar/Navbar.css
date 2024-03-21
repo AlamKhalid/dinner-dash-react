@@ -1,0 +1,41 @@
+.nav-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: large;
+    color: white;
+    text-decoration: none;
+}
+
+.logo:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.cart-filled-div {
+    position: relative;
+    color: white;
+}
+
+.cart-badge {
+    position: absolute;
+    right: -10px;
+    top: -15px;
+}
+
+.cart-icon {
+    font-size: x-large;
+    margin-left: 10px;
+    color: white;
+}
+
+.mr-3 {
+    margin-right: 10px;
+}

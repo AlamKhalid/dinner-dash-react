@@ -1,0 +1,7 @@
+.cart-item-delete-icon {
+    cursor: pointer;
+}
+
+.cart-item-delete-icon:hover {
+    opacity: 0.8;
+}
